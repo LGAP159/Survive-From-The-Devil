@@ -241,7 +241,27 @@ function drawMiniMap() {
 
     ctx.restore();
 }
+// Função para atualizar o inventário na tela
+function updateInventory() {
+    const inventoryList = document.getElementById('inventoryList');
+    inventoryList.innerHTML = '';
 
+    // Agrupar itens por tipo (nome)
+    const groupedItems = player.inventory.reduce((acc, item) => {
+        if (!acc[item.name]) {
+            acc[item.name] = [];
+        }
+        acc[item.name].push(item);
+        return acc;
+    }, {});
+
+    // Exibir itens no inventário
+    for (const [key, items] of Object.entries(groupedItems)) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${key} (x${items.length})`;
+        inventoryList.appendChild(listItem);
+    }
+}
 // Função para movimentar um inimigo em direção ao jogador
 function moveEnemy(enemy) {
     const dx = player.x - enemy.x;
